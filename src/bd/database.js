@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const bd = new sqlite3.Database('data.db');
+const bd = new sqlite3.Database('./src/bd/data.db');
 
 const USUARIOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -16,7 +16,7 @@ INSERT INTO usuarios (
     nome_completo, 
     email,
     senha
-) SELECT 'Gabriel Leite', 'gabriel@alura.com.br', '123' WHERE NOT EXISTS (SELECT * FROM usuarios WHERE email = 'gabriel@alura.com.br')
+) SELECT 'Crisciano S. Botelho', 'crisciano.botelho@compasso.com.br', '123' WHERE NOT EXISTS (SELECT * FROM usuarios WHERE email = 'crisciano.compasso@compasso.com.br')
 `;
 
 const LIVROS_SCHEMA = 
@@ -50,15 +50,15 @@ INSERT INTO livros (
 bd.serialize(() => {
     bd.run("PRAGMA foreign_keys=ON");
     bd.run(USUARIOS_SCHEMA);
-    bd.run(INSERIR_USUARIO_1);
+    // bd.run(INSERIR_USUARIO_1);
     bd.run(LIVROS_SCHEMA);
     bd.run(INSERIR_LIVRO_1);
     bd.run(INSERIR_LIVRO_2);
 
-    bd.each("SELECT * FROM usuarios", (err, usuario) => {
-        console.log('Usuario: ');
-        console.log(usuario);
-    });
+    // bd.each("SELECT * FROM usuarios", (err, usuario) => {
+    //     console.log('Usuario: ');
+    //     console.log(usuario);
+    // });
 });
 
 process.on('SIGINT', () =>
