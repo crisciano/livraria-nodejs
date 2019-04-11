@@ -1,20 +1,22 @@
 class LivroDao{
     constructor(db){
         this._db = db;
+        this._table = "livros";
     }
 
     all(){
         return new Promise((resolve, reject)=>{
-            var sql = 'SELECT * FROM livros';
+            var sql = `SELECT * FROM ${this._table}`;
             this._db.all(sql, (err, res)=>{
                 if(err) return reject(err);
                 return resolve(res);
             });
         })
     }
+
     get(id){
         return new Promise( (resolve, reject)=>{
-            var sql = `SELECT * FROM livros WHERE id = ${id}`;
+            var sql = `SELECT * FROM ${this._table} WHERE id = ${id}`;
             this._db.get(sql, (err, res)=>{
                 if(err) return reject(err);
                 return resolve(res);
@@ -24,7 +26,7 @@ class LivroDao{
 
     set(livros = []){
         return new Promise( (resolve, reject)=>{
-            var sql = `INSERT INTO ${table} 
+            var sql = `INSERT INTO ${this._table} 
             (titulo, preco, descricao )
             VALUES (?, ?, ?)`;
             this._db.run(sql, livros, (err, res)=>{

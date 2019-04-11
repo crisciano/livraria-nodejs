@@ -19,7 +19,7 @@ module.exports = (app) => {
     
     app.get('/livros', function(req, resp) {
 
-        const livroDao = new LivrosDao(db);
+        var livroDao = new LivrosDao(db);
 
         livroDao.all()
             .then( livros =>{
@@ -30,6 +30,17 @@ module.exports = (app) => {
     });
 
     app.post('/livros/add', (req, resp)=>{
-        console.log(req.body);
+        // console.log(req.body);
+        resp.json(req.body);
+        var livroDao = new LivrosDao(db);
+
+        var livros = req.body;
+        /** transforma obj em array */
+        livros = Object.values(livros);
+        // console.log(livros);
+
+        livroDao.set(livros)
+            .then(res=> console.log(res))
+            .catch(err=> console.log(err))
     })
 };
