@@ -19,17 +19,17 @@ module.exports = (app) => {
     
     app.get('/livros', function(req, resp) {
 
-        /** 
-        * instanciando livrosDao
-        * parameters db;
-        */
         const livroDao = new LivrosDao(db);
 
-        livroDao.lista()
+        livroDao.all()
             .then( livros =>{
                 var data = {livros: livros};
                 resp.marko(  require('../views/livros/lista/lista.marko'), data);
             })
             .catch(err=> console.log(err))
     });
+
+    app.post('/livros/add', (req, resp)=>{
+        console.log(req.body);
+    })
 };
