@@ -27,13 +27,39 @@ class LivroDao{
     set(livros = []){
         return new Promise( (resolve, reject)=>{
             var sql = `INSERT INTO ${this._table} 
-            (titulo, preco, descricao )
+            (titulo, preco, descricao)
             VALUES (?, ?, ?)`;
             this._db.run(sql, livros, (err, res)=>{
                 if(err) return reject(err);
                 livros.id = this.lastID;
                 return resolve(res);
             });
+        })
+    }
+
+    alter(livros = []){
+        console.log(livros);
+        return new Promise( (resolve, reject)=>{
+            var sql = `UPDATE ${this._table} SET
+                titulo = ?,
+                preco = ?,
+                descricao = ?
+                WHERE id = ?`;
+            this._db.run(sql, livros, (err, res)=>{
+                if(err) return reject(err);
+                livros.id = this.lastID;
+                return resolve(res);
+            });
+        })
+    }
+
+    delete(id){
+        return new Promise( (resolve, reject ) => {
+            var sql = `DELETE FROM ${this._table} WHERE id = ${id}`;
+            this._db.run(sql, (err, res) =>{
+                if(err) return reject(err)
+                return resolve(res)
+            })
         })
     }
 }
