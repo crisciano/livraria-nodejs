@@ -14,28 +14,27 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h1>Cadastro de usuarios</h1>
+                        <h1>Cadastro de books</h1>
 
-                        <form action="/usuarios" method="post">
+                        <form action="/books" method="post">
 
-                            <div if(data.usuario.id)>
+                            <div if(data.book.id)>
                                 <input type="hidden" name="_method" value="PUT">
-                                <input type="hidden" id="id" name="id" value="${data.usuario.id}"/>
+                                <input type="hidden" id="id" name="id" value="${data.book.id}"/>
                             </div>
 
 
                             <div class="form-group">
-                                <label for="titulo">Nome Completo:</label>
-                                <input class="form-control" type="text" id="nome" name="nome_completo" placeholder="insira o nome" value="${data.usuario.nome_completo}" />
+                                <label for="title">Title:</label>
+                                <input class="form-control" type="text" id="title" name="title" placeholder="coloque o title" value="${data.book.title}" />
                             </div>
                             <div class="form-group">
-                                <label for="preco">Email:</label>
-                                <input class="form-control" type="text" id="email" name="email" placeholder="email@email.com" value="${data.usuario.email}"/>
+                                <label for="price">Price:</label>
+                                <input class="form-control" type="text" id="price" name="price" placeholder="150.25" value="${data.book.price}"/>
                             </div>
-
                             <div class="form-group">
-                                <label for="preco">Senha</label>
-                                <input class="form-control" type="password" id="senha" name="senha"  value="${data.usuario.senha}"/>
+                                <label for="description">Description:</label>
+                                <textarea class="form-control" cols="20" rows="10"  id="description" name="description" placeholder="fale sobre o book" > ${data.book.description}</textarea>
                             </div>
 
                             <input class="btn btn-success" type="submit" value="Salvar" />

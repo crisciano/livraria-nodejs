@@ -2,42 +2,42 @@ const sqlite3 = require('sqlite3').verbose();
 const bd = new sqlite3.Database('./src/bd/data.db');
 
 const USUARIOS_SCHEMA = `
-    CREATE TABLE IF NOT EXISTS usuarios (
+    CREATE TABLE IF NOT EXISTS users  (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
-        nome_completo VARCHAR(40) NOT NULL UNIQUE, 
+        login VARCHAR(40) NOT NULL UNIQUE, 
         email VARCHAR(255) NOT NULL, 
-        senha VARCHAR(255) NOT NULL
+        password VARCHAR(255) NOT NULL
     )
 `;
 
 const INSERIR_USUARIO_1 = 
 `
-    INSERT INTO usuarios ( nome_completo, email, senha ) 
+    INSERT INTO users ( login, email, password ) 
     SELECT 'Crisciano S. Botelho', 'crisciano.botelho@compasso.com.br', '123' WHERE NOT EXISTS 
-    (SELECT * FROM usuarios WHERE email = 'crisciano.compasso@compasso.com.br')
+    (SELECT * FROM users WHERE email = 'crisciano.compasso@compasso.com.br')
 `;
 
 const LIVROS_SCHEMA = 
 `
-    CREATE TABLE IF NOT EXISTS livros (
+    CREATE TABLE IF NOT EXISTS books (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        titulo TEXT NOT NULL, 
-        preco REAL NOT NULL,
-        descricao TEXT DEFAULT ('') NOT NULL )
+        title TEXT NOT NULL, 
+        price REAL NOT NULL,
+        description TEXT DEFAULT ('') NOT NULL )
 `;
 
 const INSERIR_LIVRO_1 = 
 `
-    INSERT INTO livros ( titulo, preco, descricao ) 
+    INSERT INTO books ( title, price, description ) 
     SELECT 'Node na prática', 30.0, 'Como desenvolver com Node.' 
-    WHERE NOT EXISTS (SELECT * FROM livros WHERE titulo = 'Node na prática')
+    WHERE NOT EXISTS (SELECT * FROM books WHERE title = 'Node na prática')
 `;
 
 const INSERIR_LIVRO_2 = 
 `
-    INSERT INTO livros ( titulo, preco, descricao) 
+    INSERT INTO books ( title, price, description) 
     SELECT 'JavaScript na prática', 40.0, 'Como desenvolver com JavaScript.' 
-    WHERE NOT EXISTS (SELECT * FROM livros WHERE titulo = 'JavaScript na prática')
+    WHERE NOT EXISTS (SELECT * FROM books WHERE title = 'JavaScript na prática')
 `;
 
 bd.serialize(() => {

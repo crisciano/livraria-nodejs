@@ -1,6 +1,6 @@
 const db = require('../../bd/database');
-const LivrosDao = require('../dao/livros-dao');
-const UsuarioDao = require('../dao/users-dao');
+const BookDao = require('../dao/books-dao');
+const UserDao = require('../dao/users-dao');
 
 module.exports = (app) => {
 
@@ -10,72 +10,72 @@ module.exports = (app) => {
             require('../views/home/home.marko'))
     });
     
-    app.get('/livros', function(req, resp) {
+    app.get('/books', function(req, resp) {
 
-        var livroDao = new LivrosDao(db);
+        var bookDao = new BookDao(db);
 
-        livroDao.all()
-            .then( livros =>{
-                var data = {livros: livros};
-                resp.marko(  require('../views/livros/lista/lista.marko'), data);
+        bookDao.all()
+            .then( books =>{
+                var data = {books: books};
+                resp.marko(  require('../views/books/list/lista.marko'), data);
             })
             .catch(err=> console.log(err))
     });
 
-    app.get('/livros/form', (req, resp)=>{
+    app.get('/books/form', (req, resp)=>{
         resp.marko(
-            require('../views/livros/form/form.marko'),
-            {livro: {}})
+            require('../views/books/form/form.marko'),
+            {book: {}})
     })
 
-    app.get('/livros/form/:id', (req, resp)=>{
+    app.get('/books/form/:id', (req, resp)=>{
         let id = req.params.id;
 
-        var livroDao = new LivrosDao(db);
+        var bookDao = new BookDao(db);
 
-        livroDao.get(id)
+        bookDao.get(id)
             .then(res=> {
                 console.log(res); 
                 // resp.status(200).end() 
                 resp.marko(
-                    require('../views/livros/form/form.marko'),
-                    { livro: res }
+                    require('../views/books/form/form.marko'),
+                    { book: res }
                 )
             })
             .catch(err => console.log(err))
 
     })
 
-    app.get('/usuarios', function(req, resp) {
+    app.get('/users', function(req, resp) {
 
-        var usuariosDao = new UsuarioDao(db);
+        var usersDao = new UserDao(db);
 
-        usuariosDao.all()
-            .then( usuarios =>{
-                var data = {usuarios: usuarios};
-                resp.marko(  require('../views/usuarios/lista/lista.marko'), data);
+        usersDao.all()
+            .then( users =>{
+                var data = {users: users};
+                resp.marko(  require('../views/users/list/lista.marko'), data);
             })
             .catch(err=> console.log(err))
     });
 
-    app.get('/usuarios/form', (req, resp)=>{
+    app.get('/users/form', (req, resp)=>{
         resp.marko(
-            require('../views/usuarios/form/form.marko'),
-            {usuario: {}})
+            require('../views/users/form/form.marko'),
+            {user: {}})
     })
 
-    app.get('/usuarios/form/:id', (req, resp)=>{
+    app.get('/users/form/:id', (req, resp)=>{
         let id = req.params.id;
 
-        var usuariosDao = new UsuarioDao(db);
+        var usersDao = new UserDao(db);
 
-        usuariosDao.get(id)
+        usersDao.get(id)
             .then(res=> {
                 console.log(res); 
                 // resp.status(200).end() 
                 resp.marko(
-                    require('../views/usuarios/form/form.marko'),
-                    { usuario: res }
+                    require('../views/users/form/form.marko'),
+                    { user: res }
                 )
             })
             .catch(err => console.log(err))
@@ -84,13 +84,13 @@ module.exports = (app) => {
 
 
     /** delete */
-    app.delete('/livros/:id', (req, resp, err ) => {
+    app.delete('/books/:id', (req, resp, err ) => {
 
         let id = req.params.id;
 
-        var livroDao = new LivrosDao(db);
+        var bookDao = new BookDao(db);
 
-        livroDao.delete(id)
+        bookDao.delete(id)
             .then(res=> {
                 console.log(res); 
                 resp.status(200).end() 
@@ -99,13 +99,13 @@ module.exports = (app) => {
 
     })
 
-    app.delete('/usuarios/:id', (req, resp, err ) => {
+    app.delete('/users/:id', (req, resp, err ) => {
 
         let id = req.params.id;
 
-        var usuariosDao = new UsuarioDao(db);
+        var usersDao = new UserDao(db);
 
-        usuariosDao.delete(id)
+        usersDao.delete(id)
             .then(res=> {
                 console.log(res); 
                 resp.status(200).end() 
@@ -116,70 +116,70 @@ module.exports = (app) => {
     
 
     /** post */
-    app.post('/livros', function(req, resp) {
+    app.post('/books', function(req, resp) {
 
-        var livroDao = new LivrosDao(db);
+        var bookDao = new BookDao(db);
 
-        var livros = req.body;
+        var books = req.body;
 
         /** transforma obj em array */
-        livros = Object.values(livros);
+        books = Object.values(books);
 
-        livroDao.set(livros)
-            .then(res => resp.redirect('/livros'))
+        bookDao.set(books)
+            .then(res => resp.redirect('/books'))
             .catch(err=> console.log(err))
     });
 
-    app.post('/usuarios', function(req, resp) {
+    app.post('/users', function(req, resp) {
 
-        var usuariosDao = new UsuarioDao(db);
+        var usersDao = new UserDao(db);
 
-        var usuarios = req.body;
+        var users = req.body;
 
         /** transforma obj em array */
-        usuarios = Object.values(usuarios);
+        users = Object.values(users);
 
-        usuariosDao.set(usuarios)
-            .then(res => resp.redirect('/usurios'))
+        usersDao.set(users)
+            .then(res => resp.redirect('/users'))
             .catch(err=> console.log(err))
     });
 
     /** put */
-    app.put('/livros', function(req, resp) {
+    app.put('/books', function(req, resp) {
 
-        var livroDao = new LivrosDao(db);
+        var bookDao = new BookDao(db);
 
-        var livros = req.body;
+        var books = req.body;
 
-        livros = [
-            livros.titulo,
-            livros.preco,
-            livros.descricao,
-            livros.id
+        books = [
+            books.title,
+            books.price,
+            books.description,
+            books.id
         ]
 
-        console.log(livros);
+        console.log(books);
 
-        livroDao.alter(livros)
-            .then(res => resp.redirect('/livros'))
+        bookDao.alter(books)
+            .then(res => resp.redirect('/books'))
             .catch(err=> console.log(err))
     });
 
-    app.put('/usuarios', function(req, resp) {
+    app.put('/users', function(req, resp) {
 
-        var usuariosDao = new UsuarioDao(db);
+        var usersDao = new UserDao(db);
 
-        var usuarios = req.body;
+        var users = req.body;
 
-        usuarios = [
-            usuarios.nome_completo,
-            usuarios.email,
-            usuarios.senha,
-            usuarios.id
+        users = [
+            users.login,
+            users.email,
+            users.password,
+            users.id
         ]
 
-        usuariosDao.alter(usuarios)
-            .then(res => resp.redirect('/usuarios'))
+        usersDao.alter(users)
+            .then(res => resp.redirect('/users'))
             .catch(err=> console.log(err))
     });
     

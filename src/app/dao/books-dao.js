@@ -1,7 +1,7 @@
-class LivroDao{
+class BookDao{
     constructor(db){
         this._db = db;
-        this._table = "livros";
+        this._table = "books";
     }
 
     all(){
@@ -24,30 +24,30 @@ class LivroDao{
         })
     }
 
-    set(livros = []){
+    set(books = []){
         return new Promise( (resolve, reject)=>{
             var sql = `INSERT INTO ${this._table} 
-            (titulo, preco, descricao)
+            (title, price, description)
             VALUES (?, ?, ?)`;
-            this._db.run(sql, livros, (err, res)=>{
+            this._db.run(sql, books, (err, res)=>{
                 if(err) return reject(err);
-                livros.id = this.lastID;
+                books.id = this.lastID;
                 return resolve(res);
             });
         })
     }
 
-    alter(livros = []){
-        console.log(livros);
+    alter(books = []){
+        console.log(books);
         return new Promise( (resolve, reject)=>{
             var sql = `UPDATE ${this._table} SET
-                titulo = ?,
-                preco = ?,
-                descricao = ?
+                title = ?,
+                price = ?,
+                description = ?
                 WHERE id = ?`;
-            this._db.run(sql, livros, (err, res)=>{
+            this._db.run(sql, books, (err, res)=>{
                 if(err) return reject(err);
-                livros.id = this.lastID;
+                books.id = this.lastID;
                 return resolve(res);
             });
         })
@@ -63,4 +63,4 @@ class LivroDao{
         })
     }
 }
-module.exports = LivroDao
+module.exports = BookDao

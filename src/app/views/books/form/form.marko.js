@@ -2,16 +2,15 @@
 "use strict";
 
 var marko_template = module.exports = require("marko/src/html").t(__filename),
-    marko_componentType = "/livraria$1.0.0/src/app/views/usuarios/lista/lista.marko",
+    marko_componentType = "/livraria$1.0.0/src/app/views/books/form/form.marko",
     components_helpers = require("marko/src/components/helpers"),
     marko_renderer = components_helpers.r,
     marko_defineComponent = components_helpers.c,
     marko_helpers = require("marko/src/runtime/html/helpers"),
     marko_loadTag = marko_helpers.t,
     component_globals_tag = marko_loadTag(require("marko/src/components/taglib/component-globals-tag")),
-    marko_forEach = marko_helpers.f,
-    marko_escapeXml = marko_helpers.x,
     marko_escapeXmlAttr = marko_helpers.xa,
+    marko_escapeXml = marko_helpers.x,
     init_components_tag = marko_loadTag(require("marko/src/components/taglib/init-components-tag")),
     await_reorderer_tag = marko_loadTag(require("marko/src/taglibs/async/await-reorderer-tag"));
 
@@ -22,33 +21,25 @@ function render(input, out, __component, component, state) {
 
   component_globals_tag({}, out);
 
-  out.w("<section><div class=\"container\"><div class=\"row\"><div class=\"col-12\"><h1> Listagem de usuarios </h1><table class=\"table\" id=\"usuarios\"><thead><tr><td>ID</td><td>Nome</td><td>Email</td><td>Actions</td></tr></thead><tbody>");
+  out.w("<section><div class=\"container\"><div class=\"row\"><div class=\"col-12\"><h1>Cadastro de books</h1><form action=\"/books\" method=\"post\">");
 
-  var for__21 = 0;
+  if (data.book.id) {
+    out.w("<div><input type=\"hidden\" name=\"_method\" value=\"PUT\"><input type=\"hidden\" id=\"id\" name=\"id\" value=\"" +
+      marko_escapeXmlAttr(data.book.id) +
+      "\"></div>");
+  }
 
-  marko_forEach(data.usuarios, function(usuario) {
-    var keyscope__22 = "[" + ((for__21++) + "]");
-
-    out.w("<tr id=\"usuarios_" +
-      marko_escapeXmlAttr(usuario.id) +
-      "\"><td>" +
-      marko_escapeXml(usuario.id) +
-      "</td><td>" +
-      marko_escapeXml(usuario.nome_completo) +
-      "</td><td>" +
-      marko_escapeXml(usuario.email) +
-      "</td><td><a class=\"btn btn-primary\" href=\"/usuarios/form/" +
-      marko_escapeXmlAttr(usuario.id) +
-      "\">Alter</a><a class=\"btn btn-danger\" href=\"#\" data-ref=\"" +
-      marko_escapeXmlAttr(usuario.id) +
-      "\" data-type=\"delete\">Delete</a></td></tr>");
-  });
-
-  out.w("</tbody></table></div></div></div></section><script src=\"/public/js/script.js\"></script>");
+  out.w("<div class=\"form-group\"><label for=\"title\">title:</label><input class=\"form-control\" type=\"text\" id=\"title\" name=\"title\" placeholder=\"coloque o title\" value=\"" +
+    marko_escapeXmlAttr(data.book.title) +
+    "\"></div><div class=\"form-group\"><label for=\"price\">Preço:</label><input class=\"form-control\" type=\"text\" id=\"price\" name=\"price\" placeholder=\"150.25\" value=\"" +
+    marko_escapeXmlAttr(data.book.price) +
+    "\"></div><div class=\"form-group\"><label for=\"description\">Descrição:</label><textarea class=\"form-control\" cols=\"20\" rows=\"10\" id=\"description\" name=\"description\" placeholder=\"fale sobre o book\"> " +
+    marko_escapeXml(data.book.description) +
+    "</textarea></div><input class=\"btn btn-success\" type=\"submit\" value=\"Salvar\"></form></div></div></div></section>");
 
   init_components_tag({}, out);
 
-  await_reorderer_tag({}, out, __component, "31");
+  await_reorderer_tag({}, out, __component, "27");
 
   out.w("</body></html>");
 }
@@ -61,7 +52,7 @@ marko_template._ = marko_renderer(render, {
 marko_template.Component = marko_defineComponent({}, marko_template._);
 
 marko_template.meta = {
-    id: "/livraria$1.0.0/src/app/views/usuarios/lista/lista.marko",
+    id: "/livraria$1.0.0/src/app/views/books/form/form.marko",
     tags: [
       "marko/src/components/taglib/component-globals-tag",
       "marko/src/components/taglib/init-components-tag",

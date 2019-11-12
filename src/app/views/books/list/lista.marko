@@ -13,25 +13,27 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h1> Listagem de usuarios </h1>
+                        <h1> Listagem de books </h1>
                 
-                        <table class="table" id="usuarios">
+                        <table class="table" id="books">
                             <thead>
                                 <tr>
                                     <td>ID</td>
-                                    <td>Nome</td>
-                                    <td>Email</td>
+                                    <td>Título</td>
+                                    <td>Valor</td>
+                                    <td>Descrição</td>
                                     <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr id="usuarios_${usuario.id}" for (usuario in data.usuarios)>
-                                    <td>${usuario.id}</td>
-                                    <td>${usuario.nome_completo}</td>
-                                    <td>${usuario.email}</td>
+                                <tr id="books_${book.id}" for (book in data.books)>
+                                    <td>${book.id}</td>
+                                    <td>${book.title}</td>
+                                    <td>${book.price}</td>
+                                    <td>${book.description}</td>
                                     <td>
-                                        <a class="btn btn-primary" href="/usuarios/form/${usuario.id}">Alter</a>
-                                        <a class="btn btn-danger" href="#" data-ref="${usuario.id}" data-type="delete" >Delete</a>
+                                        <a class="btn btn-primary" href="/books/form/${book.id}">Alter</a>
+                                        <a class="btn btn-danger" href="#" data-ref="${book.id}" data-type="delete" >Delete</a>
                                     </td>
                                 </tr>
                             </tbody>

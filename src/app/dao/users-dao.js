@@ -1,7 +1,7 @@
-class UsuarioDao{
+class UserDao{
   constructor(db){
       this._db = db;
-      this._table = "usuarios";
+      this._table = "users";
   }
 
   all(){
@@ -24,31 +24,31 @@ class UsuarioDao{
       })
   }
 
-  set(usuarios = []){
+  set(users = []){
 
-    console.log(usuarios);
+    console.log(users);
       return new Promise( (resolve, reject)=>{
           var sql = `INSERT INTO ${this._table} 
-          (nome_completo, email, senha)
+          (login, email, password)
           VALUES (?, ?, ?)`;
-          this._db.run(sql, usuarios, (err, res)=>{
+          this._db.run(sql, users, (err, res)=>{
               if(err) return reject(err);
-              usuarios.id = this.lastID;
+              users.id = this.lastID;
               return resolve(res);
           });
       })
   }
 
-  alter(usuarios = []){
+  alter(users = []){
       return new Promise( (resolve, reject)=>{
           var sql = `UPDATE ${this._table} SET
-              nome_completo = ?,
+              login = ?,
               email = ?,
-              senha = ?
+              password = ?
               WHERE id = ?`;
-          this._db.run(sql, usuarios, (err, res)=>{
+          this._db.run(sql, users, (err, res)=>{
               if(err) return reject(err);
-              usuarios.id = this.lastID;
+              users.id = this.lastID;
               return resolve(res);
           });
       })
@@ -64,4 +64,4 @@ class UsuarioDao{
       })
   }
 }
-module.exports = UsuarioDao
+module.exports = UserDao

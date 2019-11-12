@@ -3,7 +3,7 @@
 ## Quick start
 Generator sqlite
 ~~~script
-yarn database.js
+yarn ./src/bd/database.js
 ~~~~
 
 Start aplication
@@ -14,25 +14,25 @@ yarn start
 #### GET
 ```
     /
-    /livros
-    /livros/form
-    /livros/form/:id
-    /usurios
-    /usurios/form
-    /usurios/form/:id
+    /books
+    /books/form
+    /books/form/:id
+    /users 
+    /users /form
+    /users /form/:id
 ```
 #### POST
 ```
-    /livros
-    /usurios
+    /books
+    /users 
 ```
 #### PUT
 ```
-    /livros
-    /usurios
+    /books
+    /users 
 ```
 #### DELETE
 ```
-    /livros/:id
-    /usurios/:id
+    /books/:id
+    /users /:id
 ```
