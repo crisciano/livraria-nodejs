@@ -1,6 +1,7 @@
 const db = require('../../bd/database');
 const BookDao = require('../dao/books-dao');
 const UserDao = require('../dao/users-dao');
+const { check, validationResult } = require('express-validator');
 
 module.exports = (app) => {
 
@@ -116,11 +117,18 @@ module.exports = (app) => {
     
 
     /** post */
-    app.post('/books', function(req, resp) {
+    app.post('/books', [
+        check('price').isCurrency(),
+        check('title').isLength({min: 5})
+    ], function(req, resp) {
 
         var bookDao = new BookDao(db);
-
         var books = req.body;
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return resp.status(422).json({ errors: errors.array() });
+        }
 
         /** transforma obj em array */
         books = Object.values(books);
@@ -130,11 +138,18 @@ module.exports = (app) => {
             .catch(err=> console.log(err))
     });
 
-    app.post('/users', function(req, resp) {
+    app.post('/users', [
+        check('email').isEmail(),
+        check('password').isLength({ min: 5 })
+    ], function(req, resp) {
 
         var usersDao = new UserDao(db);
-
         var users = req.body;
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return resp.status(422).json({ errors: errors.array() });
+        }
 
         /** transforma obj em array */
         users = Object.values(users);
@@ -157,8 +172,6 @@ module.exports = (app) => {
             books.description,
             books.id
         ]
-
-        console.log(books);
 
         bookDao.alter(books)
             .then(res => resp.redirect('/books'))
